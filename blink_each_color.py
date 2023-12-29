@@ -34,7 +34,7 @@ while True:
   time.sleep(2)
   led_b.on()
   led_g.on()
-  time.sleep(2)
+  time.sleep(4)
   
   
 """  
