@@ -1,12 +1,12 @@
-# THIS IS CHAT GPT CODE, for reference.  Entertaining for sure 
+# Originally CHATcpt CODE. I've been modifying it for learning purposes 
 
 from machine import Pin, PWM
 import time
 
 # Define the RGB LED pins
-red_pin = Pin(15, Pin.OUT)  # Replace with the actual pin number
-green_pin = Pin(17, Pin.OUT)  # Replace with the actual pin number
-blue_pin = Pin(16, Pin.OUT) # Replace with the actual pin number
+red_pin = Pin(15, Pin.OUT)          # Pin 15 is conected to red
+green_pin = Pin(17, Pin.OUT)        # Pin 17 is connected to green
+blue_pin = Pin(16, Pin.OUT)         # Pin 16 is connected to bleu
 
 # Create PWM objects for each color
 red_pwm = PWM(red_pin, freq=1000)

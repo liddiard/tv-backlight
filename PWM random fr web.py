@@ -5,9 +5,9 @@ Led_R = PWM(Pin(15))
 Led_G = PWM(Pin(16))
 Led_B = PWM(Pin(17))
 # Define the frequency
-Led_R.freq(500)   # was 2000
-Led_G.freq(500)   # was 2000
-Led_B.freq(500)   # was 2000
+Led_R.freq(2000)  
+Led_G.freq(2000)  
+Led_B.freq(2000) 
 if __name__ == "__main__":
     while True:
         # range of random numbers
