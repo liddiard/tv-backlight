@@ -1,53 +1,71 @@
-# adapted from https://www.youngwonks.com/blog/How-to-use-an-RGB-LED-with-the-Raspberry-Pi-Pico
-# Initially this sketch did not work. I finally figured out I needed to switch "on" and "off" since it is a common anode, thus off is on :)
+# inspration from multiple sites, but started with https://www.youngwonks.com/blog/How-to-use-an-RGB-LED-with-the-Raspberry-Pi-Pico
+# Needed to invert the outputs since it is an common anode LED
 
-from machine import Pin
+from machine import Pin, Signal
+# from machine import Signal
 import time
-# test comment
 
-led_r = Pin(15, Pin.OUT)
-led_g = Pin(17, Pin.OUT)
-led_b = Pin(16, Pin.OUT)
+led_r = Signal(15, Pin.OUT, invert=True)            # need to invert the ouptut due to using anode LED         
+led_g = Signal(17, Pin.OUT, invert=True)            # need to invert the ouptut due to using anode LED
+led_b = Signal(16, Pin.OUT, invert=True)            # need to invert the ouptut due to using anode LED
+switch = Pin(0, Pin.IN, Pin.PULL_DOWN)
 
-while True:
-  # led_r.off()              # turn RED led on   YES, on is off, off is on due to common ANODE led
-  led_g.off()              # turn GREEN led off
-  led_b.off()              # turn BLUE led off
-  time.sleep(3)
-
+def redLedOn():                                     # assign red LED On
+  led_r.on()                                    
+def redLedOff():                                    # assign rel LED Off
   led_r.off()
-  led_g.off()
-  time.sleep(2)
-  led_r.on()
+def greenLedOn():                                   # assign green LED On
   led_g.on()
-  time.sleep(.5)
-
-  #led_r.off()
-  led_b.off()
-  time.sleep(2)
-  #led_r.on()
-  led_b.on()
-  time.sleep(.5)
-  
-  led_b.off()
+def greenLedOff():                                  # assign green LED Off
   led_g.off()
-  time.sleep(2)
+def blueLedOn():                                    # assign Blue LED On
   led_b.on()
-  led_g.on()
-  time.sleep(4)
-  
-  
-"""  
-  led_r.toggle()
-    time.sleep(1)
-    led_r.toggle()
-    
-    led_g.toggle()
-    time.sleep(1)
-    led_g.toggle()
+def blueLedOff():                                   # assign Blue LED Off
+  led_b.off()
 
-    led_b.toggle()
-    time.sleep(1)
-    led_b.toggle()
+redLedOff()
+greenLedOff()
+blueLedOff()
+time.sleep(.2)
 
-"""
+while True:                      # red only
+  while(switch.value()==0):
+    redLedOn()
+    time.sleep(.2)               # assist with debounce
+
+  redLedOff()
+
+  while(switch.value()==0):     # green only
+    greenLedOn()
+    time.sleep(.2)
+
+  greenLedOff()
+
+  while(switch.value()==0):     # blue only
+    blueLedOn()
+    time.sleep(.1)
+
+  blueLedOff()
+
+  while(switch.value()==0):     # blue and green
+    blueLedOn()
+    greenLedOn()
+    time.sleep(.1)
+
+  greenLedOff()
+  blueLedOff()
+
+  while(switch.value()==0):     # blue and green
+    redLedOn()
+    greenLedOn()
+    time.sleep(.1)
+
+  redLedOff()
+  greenLedOff()
+  
+
+
+
+
+
+

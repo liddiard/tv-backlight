@@ -1,3 +1,4 @@
+# THIS IS CHAT GPT CODE, for reference.  Entertaining for sure 
 
 from machine import Pin, PWM
 import time
@@ -16,7 +17,7 @@ blue_pwm = PWM(blue_pin, freq=1000)
 def set_brightness(pwm, brightness):   
     max_duty_cycle = 2**16
     duty = max_duty_cycle - (brightness * max_duty_cycle)
-    print (duty, "in set brightnes")
+    # print (duty, "in set brightnes")
     pwm.duty_u16(round(duty))
 
 def set_color(red, green, blue):
@@ -28,29 +29,24 @@ def set_color(red, green, blue):
 
 def loop_colors():     
     while True:
-        print("in looop")
-        # purple
-        set_color(.5, 0, 1)
+        # print("in loop")
+        print("purple")
+        set_color(.15, 0, .2)
+        time.sleep(2)
+        
+        print("yellow (red + green)")
+        set_color(.1, .1, 0)
         time.sleep(2)
 
-        # Green
-        set_color(.5, 0, 0)
+        print("Magenta (Red + Blue)")
+        set_color(.1, 0, .2)
         time.sleep(2)
 
-        # Blue
-        set_color(0, 0, 1)
+        print("# Cyan (Green + Blue)")
+        set_color(0, .2, .25)
         time.sleep(2)
 
-        # Yellow (Red + Green)
-        set_color(1, 1, 0)
-        time.sleep(2)
-
-        # Magenta (Red + Blue)
-        set_color(1, 0, 1)
-        time.sleep(2)
-
-        # Cyan (Green + Blue)
-        set_color(0, 1, 1)
+        set_color(0, 0, 0)
         time.sleep(2)
 
 # Run the color loop
