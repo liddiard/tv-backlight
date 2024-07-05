@@ -61,12 +61,12 @@ while True:                      # red only
 
   redLedOff()
   greenLedOff()
-  blueLedOff()
+#  blueLedOff()
 
 # the routine seems to cause it to skip the red while loop at the first
-  while(switch.value()==0):
-    print(" ")
-    time.sleep(.2)
+#  while(switch.value()==0):
+#    print(" ")
+#    time.sleep(.2)
 
  
  
