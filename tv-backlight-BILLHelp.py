@@ -23,7 +23,6 @@ def blueLedOff():                                   # assign Blue LED Off
   led_b.value(1)
 
 def deBounce():
-  # time.sleep(.2)
   print("debouncing")
   debounced = False
   count = 0
