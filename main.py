@@ -1,4 +1,4 @@
-# inspration from multiple sites, but started with https://www.youngwonks.com/blog/How-to-use-an-RGB-LED-with-the-Raspberry-Pi-Pico
+# inspiration from multiple sites, but started with https://www.youngwonks.com/blog/How-to-use-an-RGB-LED-with-the-Raspberry-Pi-Pico
 # Needed to invert the outputs since it is an common anode LED
 
 from machine import Pin, Signal
@@ -25,11 +25,11 @@ def blueLedOff():                                   # assign Blue LED Off
 redLedOff()
 greenLedOff()
 blueLedOff()
-#time.sleep(.2)
+time.sleep(.75)
 
 while True:                      # red only
   while(switch.value()==0):
-    redLedOn()
+    led_r.on() 
     time.sleep(.2)               # to help with debounce
 
   redLedOff()
