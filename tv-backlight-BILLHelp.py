@@ -1,12 +1,13 @@
 # inspiration from multiple sites, but started with https://www.youngwonks.com/blog/How-to-use-an-RGB-LED-with-the-Raspberry-Pi-Pico
 # Needed to invert the outputs since it is an common anode LED
-# the button pushes were unpredictible, so all re-written with Bill 
+# the button pushes were unpredictible, so pretty much all re-written with Bill.  I suck :( 
+# Many modes.  Bill figured out it will work if I totally remove the resistor (which the leaves no current limiting)
 from machine import Pin, Signal
-import time
+from time import sleep_ms
 
-led_r = Pin(15, Pin.OUT, Pin.PULL_UP)     # tried pull-up for red, since it is always "on" slightly.  Did not help
-led_g = Pin(17, Pin.OUT)
-led_b = Pin(16, Pin.OUT)
+led_r = Pin(20, Pin.OUT, Pin.PULL_UP)     # tried pull-up for red, since it is always "on" slightly.  Did not help
+led_g = Pin(19, Pin.OUT)
+led_b = Pin(18, Pin.OUT)
 switch = Pin(0, Pin.IN, Pin.PULL_DOWN)
 
 def redLedOn():                                     # assign red LED On
@@ -27,6 +28,7 @@ def deBounce():
   debounced = False
   count = 0
   limit = 2000
+  sleep_ms(100)
   while debounced == False:
     if switch.value() == 1:
         count +=1
@@ -39,33 +41,19 @@ def deBounce():
 
 def waitForRel():
    while switch.value() == 1:
-   	pass
-    
+   	#pass
+    sleep_ms(200)
+
 def waitForSw():
    while switch.value() == 0:
     pass
 
-#redLedOff()
-#greenLedOff()
-#blueLedOff()
-time.sleep(.5)
+redLedOff()
+greenLedOff()
+blueLedOff()
+sleep_ms(500)
 
 while True: 
-  blueLedOff()                 
-  greenLedOff()
-  redLedOn()					# red on
-  deBounce()
-  waitForRel() 
-  waitForSw()
-  redLedOff()
-
-  redLedOff()
-  greenLedOn()					# green on
-  blueLedOff()
-  deBounce()
-  waitForRel()
-  waitForSw()
-  greenLedOff()
 
   redLedOff()						
   greenLedOff()
@@ -73,7 +61,22 @@ while True:
   deBounce()
   waitForRel()
   waitForSw()
+
+  redLedOn()					# red on
+  blueLedOff()                 
+  greenLedOff()
+  deBounce()
+  waitForRel() 
+  waitForSw()
+
+  redLedOff()
+  greenLedOn()				# green on
   blueLedOff()
+  deBounce()
+  waitForRel()
+  waitForSw()
+
+ 
   
   redLedOff()					# turquoise (blue+green)
   greenLedOn()
@@ -81,8 +84,6 @@ while True:
   deBounce()
   waitForRel()
   waitForSw()
-  greenLedOff()
-  blueLedOff()
 
   redLedOn()					# purple (red+blue)
   greenLedOff()
@@ -90,8 +91,6 @@ while True:
   deBounce()
   waitForRel()
   waitForSw()
-  redLedOff()
-  blueLedOff()
 
   redLedOn()					# orange (red+green)
   greenLedOn()
@@ -99,8 +98,6 @@ while True:
   deBounce()
   waitForRel()
   waitForSw()
-  redLedOff()
-  greenLedOff()
 
   redLedOff()					# all off
   greenLedOff()

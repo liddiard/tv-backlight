@@ -4,9 +4,9 @@
 from machine import Pin, Signal
 import time
 
-led_r = Signal(15, Pin.OUT, invert=True)            # need to invert the ouptut due to using anode LED         
-led_g = Signal(17, Pin.OUT, invert=True)            # need to invert the ouptut due to using anode LED
-led_b = Signal(16, Pin.OUT, invert=True)            # need to invert the ouptut due to using anode LED
+led_r = Signal(20, Pin.OUT, invert=True)            # need to invert the ouptut due to using anode LED         
+led_g = Signal(19, Pin.OUT, invert=True)            # need to invert the ouptut due to using anode LED
+led_b = Signal(18, Pin.OUT, invert=True)            # need to invert the ouptut due to using anode LED
 switch = Pin(0, Pin.IN, Pin.PULL_DOWN)
 
 def redLedOn():                                     # assign red LED On
@@ -54,7 +54,7 @@ while True:                      # red only
   greenLedOff()
   blueLedOff()
 
-  while(switch.value()==0):     # blue and green
+  while(switch.value()==0):     # red and green (ornage)
     redLedOn()
     greenLedOn()
     time.sleep(.2)
