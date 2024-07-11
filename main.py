@@ -1,72 +1,111 @@
 # inspiration from multiple sites, but started with https://www.youngwonks.com/blog/How-to-use-an-RGB-LED-with-the-Raspberry-Pi-Pico
 # Needed to invert the outputs since it is an common anode LED
+# the button pushes were unpredictible, so pretty much all re-written with Bill.  I suck :( 
+# Many modes.  Bill figured out it will work if I totally remove the resistor (which the leaves no current limiting)
+from machine import Pin
+from time import sleep_ms
 
-from machine import Pin, Signal
-import time
-
-led_r = Signal(20, Pin.OUT, invert=True)            # need to invert the ouptut due to using anode LED         
-led_g = Signal(19, Pin.OUT, invert=True)            # need to invert the ouptut due to using anode LED
-led_b = Signal(18, Pin.OUT, invert=True)            # need to invert the ouptut due to using anode LED
+led_r = Pin(20, Pin.OUT, Pin.PULL_UP)     # tried pull-up for red, since it is always "on" slightly.  Did not help
+led_g = Pin(19, Pin.OUT)
+led_b = Pin(18, Pin.OUT)
 switch = Pin(0, Pin.IN, Pin.PULL_DOWN)
 
-def redLedOn():                                     # assign red LED On
-  led_r.on()                                    
-def redLedOff():                                    # assign rel LED Off
-  led_r.off()
-def greenLedOn():                                   # assign green LED On
-  led_g.on()
-def greenLedOff():                                  # assign green LED Off
-  led_g.off()
-def blueLedOn():                                    # assign Blue LED On
-  led_b.on()
-def blueLedOff():                                   # assign Blue LED Off
-  led_b.off()
+def redLedOn():                           # assign red LED On
+  led_r.value(0)                                    
+def redLedOff():                          # assign rel LED Off
+  led_r.value(1)
+def greenLedOn():                         # assign green LED On
+  led_g.value(0)
+def greenLedOff():                        # assign green LED Off
+  led_g.value(1)
+def blueLedOn():                          # assign Blue LED On
+  led_b.value(0)
+def blueLedOff():                         # assign Blue LED Off
+  led_b.value(1)
 
-redLedOff()
+def deBounce():                           # debounce switch
+  print("debouncing")
+  debounced = False
+  count = 0
+  limit = 2000
+  sleep_ms(100)
+  while debounced == False:
+    if switch.value() == 1:
+        count +=1
+    else:
+        count = 0
+    if count >= limit:
+        debounced = True
+        print("leaving debounce")
+        
+
+def waitForRel():                         # checks if the switch has been released
+   while switch.value() == 1:
+    sleep_ms(200)
+
+def waitForSw():                          # waits for a switch change
+   while switch.value() == 0:
+    pass
+
+redLedOff()                               # turn all leds off to start
 greenLedOff()
 blueLedOff()
-time.sleep(.75)
+sleep_ms(1000)                            # when uploaded all leds turn on (white) for a 200 or so ms.  Tried this to fix it.  Helped but did not work
 
-while True:                      # red only
-  while(switch.value()==0):
-    led_r.on() 
-    time.sleep(.2)               # to help with debounce
+while True:                               # main loop
+
+  redLedOff()						
+  greenLedOff()
+  blueLedOn()					                    # turn blue led on
+  deBounce()
+  waitForRel()
+  waitForSw()
+
+  redLedOn()					                    # turn red led on
+  blueLedOff()                 
+  greenLedOff()
+  deBounce()
+  waitForRel() 
+  waitForSw()
 
   redLedOff()
-
-  while(switch.value()==0):     # green only
-    greenLedOn()
-    time.sleep(.2)
-
-  greenLedOff()
-
-  while(switch.value()==0):     # blue only
-    blueLedOn()
-    time.sleep(.2)
-
+  greenLedOn()				                    # turn green led on
   blueLedOff()
+  deBounce()
+  waitForRel()
+  waitForSw()
 
-  while(switch.value()==0):     # blue and green
-    blueLedOn()
-    greenLedOn()
-    time.sleep(.2)
+ 
+  
+  redLedOff()					                    # turn turquoise on (blue+green)
+  greenLedOn()
+  blueLedOn()
+  deBounce()
+  waitForRel()
+  waitForSw()
 
+  redLedOn()					                    # turn purple on (red+blue)
+  greenLedOff()
+  blueLedOn()
+  deBounce()
+  waitForRel()
+  waitForSw()
+
+  redLedOn()					                    # turn orange on (red+green)
+  greenLedOn()
+  blueLedOff()
+  deBounce()
+  waitForRel()
+  waitForSw()
+
+  redLedOff()					                    # all off
   greenLedOff()
   blueLedOff()
+  deBounce()
+  waitForRel()
+  waitForSw()
 
-  while(switch.value()==0):     # red and green (ornage)
-    redLedOn()
-    greenLedOn()
-    time.sleep(.2)
 
-  redLedOff()
-  greenLedOff()
-#  blueLedOff()
-
-# the routine seems to cause it to skip the red while loop at the first
-#  while(switch.value()==0):
-#    print(" ")
-#    time.sleep(.2)
 
  
  
