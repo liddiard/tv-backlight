@@ -2,13 +2,15 @@
 # Needed to invert the outputs since it is an common anode LED
 # the button pushes were unpredictible, so pretty much all re-written with Bill.  I suck :( 
 # Many modes.  Bill figured out it will work if I totally remove the resistor (which the leaves no current limiting)
+# July 15, 2024: uploaded to the pico, and put it in a box.  Seems to work, but will skip sometimes. No problem.
+
 from machine import Pin
 from time import sleep_ms
 
-led_r = Pin(20, Pin.OUT, Pin.PULL_UP)     # tried pull-up for red, since it is always "on" slightly.  Did not help
+led_r = Pin(18, Pin.OUT, Pin.PULL_UP)     # for some current limiting, put a 22 ohm resistor from the anode to 3.3v rail
 led_g = Pin(19, Pin.OUT)
-led_b = Pin(18, Pin.OUT)
-switch = Pin(0, Pin.IN, Pin.PULL_DOWN)
+led_b = Pin(20, Pin.OUT)
+switch = Pin(27, Pin.IN, Pin.PULL_DOWN)
 
 def redLedOn():                           # assign red LED On
   led_r.value(0)                                    
@@ -50,7 +52,7 @@ def waitForSw():                          # waits for a switch change
 redLedOff()                               # turn all leds off to start
 greenLedOff()
 blueLedOff()
-sleep_ms(1000)                            # when uploaded all leds turn on (white) for a 200 or so ms.  Tried this to fix it.  Helped but did not work
+sleep_ms(500)                            # when uploaded all leds turn on (white) for a 200 or so ms.  Tried this to fix it.  Helped but did not work
 
 while True:                               # main loop
 
@@ -74,8 +76,6 @@ while True:                               # main loop
   deBounce()
   waitForRel()
   waitForSw()
-
- 
   
   redLedOff()					                    # turn turquoise on (blue+green)
   greenLedOn()
