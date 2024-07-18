@@ -7,7 +7,7 @@
 from machine import Pin
 from time import sleep_ms
 
-led_r = Pin(18, Pin.OUT, Pin.PULL_UP)     # for some current limiting, put a 22 ohm resistor from the anode to 3.3v rail
+led_r = Pin(18, Pin.OUT, Pin.PULL_UP)     # 24K ohms worth of restiors to 3.3v VCC 
 led_g = Pin(19, Pin.OUT)
 led_b = Pin(20, Pin.OUT)
 switch = Pin(27, Pin.IN, Pin.PULL_DOWN)
