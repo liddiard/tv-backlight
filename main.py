@@ -48,19 +48,16 @@ def set_next_color():
   set_color(colors[cur_color])
 
 def debounce():
-  # print("debouncing")
-  debounced = False
   count = 0
   limit = 2000
   sleep_ms(100)
-  while debounced == False:
+  while True:
     if switch.value() == 1:
-        count +=1
+      count +=1
     else:
-        count = 0
+      count = 0
     if count >= limit:
-        debounced = True
-        # print("leaving debounce")
+      return
 
 set_color(1, 1, 1) # turn all LEDs on to start
 sleep_ms(500)
