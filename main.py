@@ -13,13 +13,14 @@ led_g = Pin(19, Pin.OUT)
 led_b = Pin(20, Pin.OUT)
 switch = Pin(27, Pin.IN, Pin.PULL_DOWN)
 
+# r, g, b
 colors = [
-   (0, 0, 1), # blue
-   (1, 0, 0), # red
-   (0, 1, 0), # green
-   (1, 1, 0), # yellow
-   (1, 0, 1), # magenta
-   (0, 1, 1), # cyan
+  (0, 0, 1), # blue
+  (1, 0, 0), # red
+  (0, 1, 0), # green
+  (1, 1, 0), # yellow
+  (1, 0, 1), # magenta
+  (0, 1, 1), # cyan
 ]
 
 # state variables
@@ -66,7 +67,7 @@ sleep_ms(500)
 set_color(colors[0]) # set to the first color
 
 while True:
-  if switch.value() == 0: # switch is pressed
-     set_next_color()
-      # wait for the switch to be released
-     debounce()
+  if switch.value() == 1: # switch is pressed
+    set_next_color()
+    # wait for the switch to be released
+    debounce()
