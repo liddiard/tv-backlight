@@ -44,6 +44,7 @@ def set_next_color():
   """
   Increment the current color index and set the next color based on the updated index.
   """
+  global cur_color
   cur_color = (cur_color + 1) % len(colors)
   set_color(colors[cur_color])
 
@@ -59,7 +60,7 @@ def debounce():
     if pressed_time >= time_limit:
       return
 
-set_color(1, 1, 1) # turn all LEDs on to start
+set_color((1, 1, 1)) # turn all LEDs on to start
 sleep_ms(500)
 set_color(colors[0]) # set to the first color
 
