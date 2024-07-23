@@ -31,7 +31,7 @@ def set_color(color):
   Sets the color of the RGB LED based on the input color tuple.
 
   Args:
-      color (tuple): A tuple representing the RGB values to set. Each value should be in the range of 0 to 1.
+      color (tuple): A tuple representing the RGB values to set. Each value should be in the range of 0 to 1, where 0 on and 1 is off.
 
   Returns:
       None
