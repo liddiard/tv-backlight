@@ -7,26 +7,47 @@
 from machine import Pin
 from time import sleep_ms
 
+# constants
 led_r = Pin(18, Pin.OUT, Pin.PULL_UP)     # 24K ohms worth of restiors to 3.3v VCC 
 led_g = Pin(19, Pin.OUT)
 led_b = Pin(20, Pin.OUT)
 switch = Pin(27, Pin.IN, Pin.PULL_DOWN)
 
-def redLedOn():                           # assign red LED On
-  led_r.value(0)                                    
-def redLedOff():                          # assign rel LED Off
-  led_r.value(1)
-def greenLedOn():                         # assign green LED On
-  led_g.value(0)
-def greenLedOff():                        # assign green LED Off
-  led_g.value(1)
-def blueLedOn():                          # assign Blue LED On
-  led_b.value(0)
-def blueLedOff():                         # assign Blue LED Off
-  led_b.value(1)
+colors = [
+   (0, 0, 1), # blue
+   (1, 0, 0), # red
+   (0, 1, 0), # green
+   (1, 1, 0), # yellow
+   (1, 0, 1), # magenta
+   (0, 1, 1), # cyan
+]
 
-def deBounce():                           # debounce switch
-  print("debouncing")
+# state variables
+cur_color = 0 # index of current color
+
+def set_color(color):
+  """
+  Sets the color of the RGB LED based on the input color tuple.
+
+  Args:
+      color (tuple): A tuple representing the RGB values to set. Each value should be in the range of 0 to 1.
+
+  Returns:
+      None
+  """
+  led_r.value(color[0])
+  led_g.value(color[1])
+  led_b.value(color[2])
+
+def set_next_color():
+  """
+  Increment the current color index and set the next color based on the updated index.
+  """
+  cur_color = (cur_color + 1) % len(colors)
+  set_color(colors[cur_color])
+
+def debounce():
+  # print("debouncing")
   debounced = False
   count = 0
   limit = 2000
@@ -38,75 +59,14 @@ def deBounce():                           # debounce switch
         count = 0
     if count >= limit:
         debounced = True
-        print("leaving debounce")
-        
+        # print("leaving debounce")
 
-def waitForRel():                         # checks if the switch has been released
-   while switch.value() == 1:
-    sleep_ms(200)
+set_color(1, 1, 1) # turn all LEDs on to start
+sleep_ms(500)
+set_color(colors[0]) # set to the first color
 
-def waitForSw():                          # waits for a switch change
-   while switch.value() == 0:
-    pass
-
-redLedOff()                               # turn all leds off to start
-greenLedOff()
-blueLedOff()
-sleep_ms(500)                            # when uploaded all leds turn on (white) for a 200 or so ms.  Tried this to fix it.  Helped but did not work
-
-while True:                               # main loop
-
-  redLedOff()						
-  greenLedOff()
-  blueLedOn()					                    # turn blue led on
-  deBounce()
-  waitForRel()
-  waitForSw()
-
-  redLedOn()					                    # turn red led on
-  blueLedOff()                 
-  greenLedOff()
-  deBounce()
-  waitForRel() 
-  waitForSw()
-
-  redLedOff()
-  greenLedOn()				                    # turn green led on
-  blueLedOff()
-  deBounce()
-  waitForRel()
-  waitForSw()
-  
-  redLedOff()					                    # turn turquoise on (blue+green)
-  greenLedOn()
-  blueLedOn()
-  deBounce()
-  waitForRel()
-  waitForSw()
-
-  redLedOn()					                    # turn purple on (red+blue)
-  greenLedOff()
-  blueLedOn()
-  deBounce()
-  waitForRel()
-  waitForSw()
-
-  redLedOn()					                    # turn orange on (red+green)
-  greenLedOn()
-  blueLedOff()
-  deBounce()
-  waitForRel()
-  waitForSw()
-
-  redLedOff()					                    # all off
-  greenLedOff()
-  blueLedOff()
-  deBounce()
-  waitForRel()
-  waitForSw()
-
-
-
- 
- 
-  
+while True:
+  if switch.value() == 0: # switch is pressed
+     set_next_color()
+      # wait for the switch to be released
+     debounce()
