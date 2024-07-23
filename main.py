@@ -48,15 +48,15 @@ def set_next_color():
   set_color(colors[cur_color])
 
 def debounce():
-  count = 0
-  limit = 2000
+  pressed_time = 0
+  time_limit = 2000
   sleep_ms(100)
   while True:
     if switch.value() == 1:
-      count +=1
+      pressed_time +=1
     else:
-      count = 0
-    if count >= limit:
+      pressed_time = 0
+    if pressed_time >= time_limit:
       return
 
 set_color(1, 1, 1) # turn all LEDs on to start
