@@ -36,9 +36,9 @@ def set_color(color):
   Returns:
       None
   """
-  led_r.value(color[0])
-  led_g.value(color[1])
-  led_b.value(color[2])
+  led_r.value(1 - color[0])
+  led_g.value(1 - color[1])
+  led_b.value(1 - color[2])
 
 def set_next_color():
   """
